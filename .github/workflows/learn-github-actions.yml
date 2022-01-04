@@ -2,8 +2,8 @@ name: learn-github-actions
 on:
   pull_request_target:
     types: [opened]
-  push
   workflow_dispatch:
+  push:
 
 jobs:
   notify:
