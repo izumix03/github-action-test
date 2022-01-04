@@ -1,10 +1,17 @@
 name: learn-github-actions
-on: [push]
+on: [pull_request]
 jobs:
-  check-bats-version:
+  notify:
+    name: Slack Notification
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-      - run: npm install -g bats
-      - run: bats -v
+      - name: "Send Notification"
+        run: |
+          cat "$GITHUB_EVENT_PATH" | jq '{
+            attachments: [{
+              pretext: "<!subteam^idhub>"
+              color: "good",
+              title: .pull_request.title + "PRです。\nご確認とマージお願いします。",
+              title_link: .pull_request.html_url
+            }]
+          }' | curl -H 'Content-Type: application/json' -d @- https://hooks.slack.com/services/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
