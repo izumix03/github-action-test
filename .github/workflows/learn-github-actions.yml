@@ -5,10 +5,14 @@ name: learn-github-actions
 on: push
 
 jobs:
+
   notify:
     name: Notify Created PR
     runs-on: ubuntu-latest
     steps:
+      - name: test
+        run: cat "$GITHUB_EVENT_PATH" | jq .
+
       - name: "Send Notification"
         run: |
           cat "$GITHUB_EVENT_PATH" | jq '.title = .pull_request.title + "PRです。\nご確認とマージお願いします。" | {
