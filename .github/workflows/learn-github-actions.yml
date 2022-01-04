@@ -2,20 +2,16 @@ name: learn-github-actions
 on:
   pull_request_target:
     types: [opened]
-
+  workflow_dispatch:
+  pull_request:
 
 jobs:
   notify:
-    name: Slack Notification
+    name: Notify Created PR
     runs-on: ubuntu-latest
     steps:
       - name: "Send Notification"
         run: |
-          cat "$GITHUB_EVENT_PATH" | jq '.pull_request.title = .pull_request.title + "PRです。\nご確認とマージお願いします。 | {
-            attachments: [{
-              pretext: "<!subteam^idhub>",
-              color: "good",
-              title: .pull_request.title,
-              title_link: .pull_request.html_url
-            }]
+          cat "$GITHUB_EVENT_PATH" | jq '.text = "<!subteam^idhub>\n" + .pull_request.title + "PRです。\nご確認とマージお願いします。" + .pull_request.html_url | {
+            text: .text
           }' | curl -H 'Content-Type: application/json' -d @- ${{ secrets.SLACK_WEBHOOK }}
