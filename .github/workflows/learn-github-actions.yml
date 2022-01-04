@@ -10,7 +10,7 @@ jobs:
         run: |
           cat "$GITHUB_EVENT_PATH" | jq '{
             attachments: [{
-              pretext: "<!subteam^idhub>"
+              pretext: "<!subteam^idhub>",
               color: "good",
               title: .pull_request.title + "PRです。\nご確認とマージお願いします。",
               title_link: .pull_request.html_url
