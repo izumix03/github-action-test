@@ -10,11 +10,11 @@ jobs:
     steps:
       - name: "Send Notification"
         run: |
-          cat "$GITHUB_EVENT_PATH" | jq '.pull_request.title = .pull_request.title + "PRです。\nご確認とマージお願いします。" | {
+          cat "$GITHUB_EVENT_PATH" | jq '.title = .pull_request.title + "PRです。\nご確認とマージお願いします。" | {
             attachments: [{
               pretext: "<!subteam^idhub>",
               color: "good",
-              title: .pull_request.title,
+              title: .title,
               title_link: .pull_request.html_url
             }]
           }' | curl -H 'Content-Type: application/json' -d @- ${{ secrets.SLACK_WEBHOOK }}
