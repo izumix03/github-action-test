@@ -12,7 +12,7 @@ jobs:
             attachments: [{
               pretext: "<!subteam^idhub>",
               color: "good",
-              title: .pull_request.title + "PRです。\nご確認とマージお願いします。",
+              title: .pull_request.title,
               title_link: .pull_request.html_url
             }]
           }' | curl -H 'Content-Type: application/json' -d @- https://hooks.slack.com/services/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
