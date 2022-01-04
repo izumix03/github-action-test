@@ -1,5 +1,8 @@
 name: learn-github-actions
-on: [pull_request]
+on:
+  pull_request_target:
+    types: [opened]
+
 
 jobs:
   notify:
@@ -8,11 +11,11 @@ jobs:
     steps:
       - name: "Send Notification"
         run: |
-          cat "$GITHUB_EVENT_PATH" | jq '{
+          cat "$GITHUB_EVENT_PATH" | jq '.pull_request.title = .pull_request.title + "PRです。\nご確認とマージお願いします。 | {
             attachments: [{
               pretext: "<!subteam^idhub>",
               color: "good",
               title: .pull_request.title,
               title_link: .pull_request.html_url
             }]
-          }' | curl -H 'Content-Type: application/json' -d @- https://hooks.slack.com/services/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
+          }' | curl -H 'Content-Type: application/json' -d @- ${{ secrets.SLACK_WEBHOOK }}
