@@ -1,8 +1,10 @@
 name: learn-github-actions
-on:
-  pull_request_target:
-    types: [opened]
+#on:
+#  pull_request_target:
+#    types: [opened]
 
+on:
+  push
 
 jobs:
   notify:
@@ -13,7 +15,7 @@ jobs:
         run: |
           cat "$GITHUB_EVENT_PATH" | jq '.pull_request.title = .pull_request.title + "PRです。\nご確認とマージお願いします。 | {
             attachments: [{
-              pretext: \"<!subteam^idhub>\",
+              pretext: "\<!subteam^idhub\>",
               color: "good",
               title: .pull_request.title,
               title_link: .pull_request.html_url
