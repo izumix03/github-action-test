@@ -1,5 +1,6 @@
 name: learn-github-actions
 on: [pull_request]
+
 jobs:
   notify:
     name: Slack Notification
